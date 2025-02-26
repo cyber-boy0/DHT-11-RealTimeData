@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Sensor Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .data {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .data i {
+            font-size: 35px;
+            margin-right: 10px;
+        }
+        .data span {
+            font-size: 24px;
+        }
+        .data .value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DHT11 Sensor Data</h1>
+        <div class="data">
+            <i class="fas fa-thermometer-half" style="color: red;"></i>
+            <span>Temperature: </span>
+            <span class="value" id="temperature">--</span>
+            <span>°C</span>
+        </div>
+        <div class="data">
+            <i class="fas fa-tint" style="color: blue;"></i>
+            <span>Humidity: </span>
+            <span class="value" id="humidity">--</span>
+            <span>%</span>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAWoAHak0JPslTkonXGu8OsMZWNiwpjOYo",
+            authDomain: "dht11-realtime-data.firebaseapp.com",
+            databaseURL: "https://dht11-realtime-data-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "dht11-realtime-data",
+            storageBucket: "dht11-realtime-data.appspot.com",
+            messagingSenderId: "1066419757974",
+            appId: "1:1066419757974:web:e66ce44367d16d10abf3b7"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Reference Temperature and Humidity
+        const tempRef = ref(database, "DHT_11/Temperature");
+        const humRef = ref(database, "DHT_11/Humidity");
+
+        // Listen for Temperature Updates
+        onValue(tempRef, (snapshot) => {
+            if (snapshot.exists()) {
+                document.getElementById("temperature").textContent = snapshot.val().toFixed(2);
+            } else {
+                console.log("No temperature data available");
+            }
+        });
+
+        // Listen for Humidity Updates
+        onValue(humRef, (snapshot) => {
+            if (snapshot.exists()) {
+                document.getElementById("humidity").textContent = snapshot.val().toFixed(2);
+            } else {
+                console.log("No humidity data available");
+            }
+        });
+    </script>
+</body>
+</html>
