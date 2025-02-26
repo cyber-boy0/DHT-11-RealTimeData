@@ -2,7 +2,7 @@
 #include <WiFi.h>               // We are using the ESP32
 //#include <ESP8266WiFi.h>      // Uncomment this line if you are using ESP8266 and comment the line above
 #include <Firebase_ESP_Client.h>
-#include <DHT.h>                // Install DHT library by Adafruit 1.3.8
+#include <DHT.h>                // Install DHT library by Adafruit 1.4.6
 
 #define DHT_SENSOR_PIN 4
 #define DHT_SENSOR_TYPE DHT11
@@ -16,14 +16,14 @@ DHT dht_sensor(DHT_SENSOR_PIN, DHT_SENSOR_TYPE);
 #include "addons/RTDBHelper.h"
 
 // Insert your network credentials
-#define WIFI_SSID "Samsung A50"
-#define WIFI_PASSWORD "00000000"
+#define WIFI_SSID "YOUR_WIFI_NAME_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
 
 // Insert Firebase project API Key
-#define API_KEY "AIzaSyAWoAHak0JPslTkonXGu8OsMZWNiwpjOYo"
+#define API_KEY "ENTER_YOUR_PROJECT_API_KEY_HERE"
 
 // Insert RTDB URL
-#define DATABASE_URL "https://dht11-realtime-data-default-rtdb.asia-southeast1.firebasedatabase.app/" 
+#define DATABASE_URL "ENTER_YOUR_DATABASE_URL_HERE" 
 
 // Define Firebase Data object
 FirebaseData fbdo;
